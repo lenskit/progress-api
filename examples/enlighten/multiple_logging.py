@@ -14,11 +14,11 @@ import platform
 import random
 import time
 
-import enlighten
+from progress_api.api import makeProgress
 
 
 logging.basicConfig(level=logging.INFO)
-LOGGER = logging.getLogger('enlighten')
+LOGGER = logging.getLogger("enlighten")
 
 DATACENTERS = 5
 SYSTEMS = (5, 10)  # Range
@@ -36,6 +36,7 @@ def win_time_granularity(milliseconds):
     """
 
     from ctypes import windll  # pylint: disable=import-outside-toplevel
+
     try:
         windll.winmm.timeBeginPeriod(milliseconds)
         yield
@@ -43,26 +44,26 @@ def win_time_granularity(milliseconds):
         windll.winmm.timeEndPeriod(milliseconds)
 
 
-def process_files(manager):
+def process_files():
     """
     Process a random number of files on a random number of systems across multiple data centers
     """
 
     # Get a top level progress bar
-    enterprise = manager.counter(total=DATACENTERS, desc='Processing:', unit='datacenters')
+    enterprise = makeProgress(total=DATACENTERS, label="Processing:", unit="datacenters")
 
     # Iterate through data centers
     for d_num in range(1, DATACENTERS + 1):
         systems = random.randint(*SYSTEMS)  # Random number of systems
         # Get a child progress bar. leave is False so it can be replaced
-        datacenter = manager.counter(total=systems, desc='  Datacenter %d:' % d_num,
-                                     unit='systems', leave=False)
+        datacenter = makeProgress(
+            total=systems, label="  Datacenter %d:" % d_num, unit="systems", leave=False
+        )
 
         # Iterate through systems
         for s_num in range(1, systems + 1):
-
             # Has no total, so will act as counter. Leave is False
-            system = manager.counter(desc='    System %d:' % s_num, unit='files', leave=False)
+            system = makeProgress(label="    System %d:" % s_num, unit="files", leave=False)
             files = random.randint(*FILES)  # Random file count
 
             # Iterate through files
@@ -72,7 +73,7 @@ def process_files(manager):
 
             system.close()  # Close counter so it gets removed
             # Log status
-            LOGGER.info('Updated %d files on System %d in Datacenter %d', files, s_num, d_num)
+            LOGGER.info("Updated %d files on System %d in Datacenter %d", files, s_num, d_num)
             datacenter.update()  # Update count
 
         datacenter.close()  # Close counter so it gets removed
@@ -87,13 +88,11 @@ def main():
     Main function
     """
 
-    with enlighten.get_manager() as manager:
-        process_files(manager)
+    process_files()
 
 
-if __name__ == '__main__':
-
-    if platform.system() == 'Windows':
+if __name__ == "__main__":
+    if platform.system() == "Windows":
         with win_time_granularity(1):
             main()
     else:

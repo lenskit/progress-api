@@ -11,22 +11,23 @@ Progress bar using binary prefixes
 import time
 import random
 
-import enlighten
+from progress_api.api import makeProgress
 
 # 64k chunk size
 CHUNK_SIZE = 64 * 1024
 
-BAR_FORMAT = '{desc}{desc_pad}{percentage:3.0f}%|{bar}| {count:!.2j}{unit} / {total:!.2j}{unit} ' \
-             '[{elapsed}<{eta}, {rate:!.2j}{unit}/s]'
+BAR_FORMAT = (
+    "{desc}{desc_pad}{percentage:3.0f}%|{bar}| {count:!.2j}{unit} / {total:!.2j}{unit} "
+    "[{elapsed}<{eta}, {rate:!.2j}{unit}/s]"
+)
 
 
-def download(manager, size):
+def download(size):
     """
     Simulate a download
     """
 
-    pbar = manager.counter(total=size, desc='Downloading',
-                           unit='B', bar_format=BAR_FORMAT, color='purple')
+    pbar = makeProgress(total=size, label="Downloading", unit="bytes")
 
     bytes_left = size
     while bytes_left:
@@ -36,10 +37,7 @@ def download(manager, size):
         bytes_left -= next_chunk
 
 
-if __name__ == '__main__':
-
-    with enlighten.get_manager() as mgr:
-
-        # 1 - 10 MB file size
-        total = random.uniform(1.0, 10.0) * 2 ** 20
-        download(mgr, total)
+if __name__ == "__main__":
+    # 1 - 10 MB file size
+    total = random.uniform(1.0, 10.0) * 2**20
+    download(total)

@@ -12,13 +12,15 @@ import logging
 import random
 import time
 
-import enlighten
+from progress_api.api import makeProgress
 
 logging.basicConfig(level=logging.INFO)
 LOGGER = logging.getLogger("enlighten")
 
-BAR_FMT = u'{desc}{desc_pad}{percentage_2:3.0f}%|{bar}| {count_2:{len_total}d}/{total:d} ' + \
-          u'[{elapsed}<{eta_2}, {rate_2:.2f}{unit_pad}{unit}/s]'
+BAR_FMT = (
+    "{desc}{desc_pad}{percentage_2:3.0f}%|{bar}| {count_2:{len_total}d}/{total:d} "
+    + "[{elapsed}<{eta_2}, {rate_2:.2f}{unit_pad}{unit}/s]"
+)
 
 
 class Node(object):
@@ -51,7 +53,7 @@ class Node(object):
         Connected state
         """
 
-        return self._state('_connected', 3)
+        return self._state("_connected", 3)
 
     @property
     def loaded(self):
@@ -59,7 +61,7 @@ class Node(object):
         Loaded state
         """
 
-        return self._state('_loaded', 5)
+        return self._state("_loaded", 5)
 
     def _state(self, variable, num):
         """
@@ -81,79 +83,74 @@ class Node(object):
         return False
 
 
-def run_tests(manager, tests=100):
+def run_tests(tests=100):
     """
     Simulate a test program
     Tests will error (yellow), fail (red), or succeed (green)
     """
 
-    terminal = manager.term
-    bar_format = u'{desc}{desc_pad}{percentage:3.0f}%|{bar}| ' + \
-                 u'S:' + terminal.green3(u'{count_0:{len_total}d}') + u' ' + \
-                 u'F:' + terminal.red2(u'{count_2:{len_total}d}') + u' ' + \
-                 u'E:' + terminal.yellow2(u'{count_1:{len_total}d}') + u' ' + \
-                 u'[{elapsed}<{eta}, {rate:.2f}{unit_pad}{unit}/s]'
+    pb = makeProgress(
+        total=tests, label="Testing", unit="tests", states=["finished", "errored", "failed"]
+    )
 
-    with manager.counter(total=tests, desc='Testing', unit='tests', color='green3',
-                         bar_format=bar_format) as success:
-        errors = success.add_subcounter('yellow2')
-        failures = success.add_subcounter('red2')
-
-        for num in range(tests):
-            time.sleep(random.uniform(0.1, 0.3))  # Random processing time
-            result = random.randint(0, 10)
-            if result == 7:
-                LOGGER.error("Test %d did not complete", num)
-                errors.update()
-            elif result in {5, 6}:
-                LOGGER.error("Test %d failed", num)
-                failures.update()
-            else:
-                LOGGER.info("Test %d passed", num)
-                success.update()
+    for num in range(tests):
+        time.sleep(random.uniform(0.1, 0.3))  # Random processing time
+        result = random.randint(0, 10)
+        if result == 7:
+            LOGGER.error("Test %d did not complete", num)
+            pb.update(state="errored")
+        elif result in {5, 6}:
+            LOGGER.error("Test %d failed", num)
+            pb.update(state="failed")
+        else:
+            LOGGER.info("Test %d passed", num)
+            pb.update()
 
 
-def load(manager, units=80):
+def load(units=80):
     """
     Simulate loading services from a remote node
     States are connecting (red), loading (yellow), and loaded (green)
     """
 
-    pb_connecting = manager.counter(total=units, desc='Loading', unit='services',
-                                    color='red2', bar_format=BAR_FMT)
-    pb_loading = pb_connecting.add_subcounter('yellow2')
-    pb_loaded = pb_connecting.add_subcounter('green3', all_fields=True)
+    pb = makeProgress(
+        total=units,
+        label="Loading",
+        unit="services",
+        states=["loaded", "loading", "connecting"],
+        finish_state="loaded",
+    )
 
     connecting = []
     loading = []
     loaded = []
     count = 0
 
-    while pb_loaded.count < units:
+    while len(loaded) < units:
         time.sleep(random.uniform(0.05, 0.15))  # Random processing time
 
         for idx, node in enumerate(loading):
             if node.loaded:
                 loading.pop(idx)
                 loaded.append(node)
-                LOGGER.info('Service %d loaded', node.iden)
-                pb_loaded.update_from(pb_loading)
+                LOGGER.info("Service %d loaded", node.iden)
+                pb.update(state="loaded", src_state="loading")
 
         for idx, node in enumerate(connecting):
             if node.connected:
                 connecting.pop(idx)
                 node.load()
                 loading.append(node)
-                LOGGER.info('Service %d connected', node.iden)
-                pb_loading.update_from(pb_connecting)
+                LOGGER.info("Service %d connected", node.iden)
+                pb.update(state="loading", src_state="connecting")
 
         # Connect to up to 5 units at a time
         for _ in range(min(units - count, 5 - len(connecting))):
             node = Node(count)
             node.connect()
             connecting.append(node)
-            LOGGER.info('Connection to service %d', node.iden)
-            pb_connecting.update()
+            LOGGER.info("Connection to service %d", node.iden)
+            pb.update(state="connecting")
             count += 1
 
 
@@ -162,9 +159,8 @@ def main():
     Main function
     """
 
-    manager = enlighten.get_manager()
-    run_tests(manager, 100)
-    load(manager, 80)
+    run_tests(100)
+    load(80)
 
 
 if __name__ == "__main__":

@@ -14,7 +14,7 @@ import random
 import time
 import sys
 
-import enlighten
+from progress_api import makeProgress
 
 # Hack so imports work regardless of how this gets called
 # We do it this way so any enlighten path can be used
@@ -26,13 +26,13 @@ from multiple_logging import process_files, win_time_granularity  # noqa: E402
 from prefixes import download  # noqa: E402
 
 
-def initialize(manager, initials=15):
+def initialize(initials=15):
     """
     Simple progress bar example
     """
 
     # Simulated preparation
-    pbar = manager.counter(total=initials, desc="Initializing:", unit="initials")
+    pbar = makeProgress(total=initials, label="Initializing:", unit="initials")
     for _ in range(initials):
         time.sleep(random.uniform(0.05, 0.25))  # Random processing time
         pbar.update()
@@ -44,31 +44,30 @@ def main():
     Main function
     """
 
-    with enlighten.get_manager() as manager:
-        status = manager.status_bar(
-            status_format="Enlighten{fill}Stage: {demo}{fill}{elapsed}",
-            color="bold_underline_bright_white_on_lightslategray",
-            justify=enlighten.Justify.CENTER,
-            demo="Initializing",
-            autorefresh=True,
-            min_delta=0.5,
-        )
-        docs = manager.term.link(
-            "https://python-enlighten.readthedocs.io/en/stable/examples.html", "Read the Docs"
-        )
-        manager.status_bar(
-            " More examples on %s! " % docs, position=1, fill="-", justify=enlighten.Justify.CENTER
-        )
+    # status = manager.status_bar(
+    #     status_format="Enlighten{fill}Stage: {demo}{fill}{elapsed}",
+    #     color="bold_underline_bright_white_on_lightslategray",
+    #     justify=enlighten.Justify.CENTER,
+    #     demo="Initializing",
+    #     autorefresh=True,
+    #     min_delta=0.5,
+    # )
+    # docs = manager.term.link(
+    #     "https://python-enlighten.readthedocs.io/en/stable/examples.html", "Read the Docs"
+    # )
+    # manager.status_bar(
+    #     " More examples on %s! " % docs, position=1, fill="-", justify=enlighten.Justify.CENTER
+    # )
 
-        initialize(manager, 15)
-        status.update(demo="Loading")
-        load(manager, 40)
-        status.update(demo="Testing")
-        run_tests(manager, 20)
-        status.update(demo="Downloading")
-        download(manager, 2.0 * 2**20)
-        status.update(demo="File Processing")
-        process_files(manager)
+    initialize(15)
+    # status.update(demo="Loading")
+    load(40)
+    # status.update(demo="Testing")
+    run_tests(20)
+    # status.update(demo="Downloading")
+    download(2.0 * 2**20)
+    # status.update(demo="File Processing")
+    process_files()
 
 
 if __name__ == "__main__":
