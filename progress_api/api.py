@@ -1,6 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Optional
-from logging import Logger
+from logging import Logger, getLogger
+
+from . import config
+from .backends import ProgressBarSpec
 
 
 class Progress(ABC):
@@ -75,4 +78,20 @@ def progress(
             named “finished” is used if supplied in “states”; otherwise, the first
             state in “states” is considered finished.
     """
-    pass
+
+    if logger is None:
+        logger = getLogger()
+    elif isinstance(logger, str):
+        logger = getLogger(logger)
+
+    if states is None:
+        states = ["finished"]
+
+    if finish_state is None:
+        if "finished" in states:
+            finish_state = "finished"
+        else:
+            finish_state = states[0]
+
+    spec = ProgressBarSpec(logger, label, total, unit, states, finish_state)
+    return config.backend.create_bar(spec)
