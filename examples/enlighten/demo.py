@@ -15,6 +15,8 @@ import time
 import sys
 
 from progress_api import make_progress
+from progress_api.backends.enlighten import EnlightenProgressBackend
+from progress_api.config import set_backend
 
 # Hack so imports work regardless of how this gets called
 # We do it this way so any enlighten path can be used
@@ -32,11 +34,11 @@ def initialize(initials=15):
     """
 
     # Simulated preparation
-    pbar = make_progress(total=initials, label="Initializing:", unit="initials")
+    pbar = make_progress(total=initials, label="Initializing:", unit="initials", leave=True)
     for _ in range(initials):
         time.sleep(random.uniform(0.05, 0.25))  # Random processing time
         pbar.update()
-    pbar.close()
+    pbar.finish()
 
 
 def main():
@@ -71,6 +73,13 @@ def main():
 
 
 if __name__ == "__main__":
+    if os.environ.get("PROGRESS_BACKEND", None) == "enlighten":
+        set_backend(
+            EnlightenProgressBackend(
+                state_colors={"loaded": "green", "loading": "yellow", "connecting": "blue"}
+            )
+        )
+
     if platform.system() == "Windows":
         with win_time_granularity(1):
             main()

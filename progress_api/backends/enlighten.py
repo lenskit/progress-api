@@ -28,9 +28,10 @@ class EnlightenProgressBackend(ProgressBackend):
         bar = self.manager.counter(
             total=spec.total, desc=spec.label, unit=spec.unit, leave=spec.leave
         )
-        bars = {spec.finish_state: bar}
+        bars = {spec.states[-1]: bar}
         bars.update(
-            (state, bar.add_subcounter()) for state in spec.states if state != spec.finish_state
+            (state, bar.add_subcounter(self.state_colors.get(state, None)))
+            for state in spec.states[:-1]
         )
 
         return EnlightenProgress(spec, bar, bars)

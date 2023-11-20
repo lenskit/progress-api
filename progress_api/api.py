@@ -41,7 +41,10 @@ class Progress(ABC):
         Args:
             n: the amount to increment the progress bar counter by.
             state: the name of the progress bar state to increment.
-            src_state: the state to move the progress items from, if applicable.
+            src_state: the state to move the progress items from, if applicable.  This should
+                never be supplied when ``state`` is the last state provided to {meth}`makeProgress`,
+                as it is the *first* state items are considered able to enter; not all backends
+                support moving into the initial state from another state.
         """
         raise NotImplementedError()
 
@@ -82,7 +85,8 @@ def make_progress(
             A label for different states to display, when displaying a multi-state
             progress bar.  Not all backends support multiple states.  States are
             typically displayed in order.  Callers do not need to supply an
-            unfinished state.
+            unfinished state.  The order matters: it is expected that items progress
+            from the last state to the first.
         finish_state:
             The label for the “finished” state.  If this is not supplied, a state
             named “finished” is used if supplied in “states”; otherwise, the first

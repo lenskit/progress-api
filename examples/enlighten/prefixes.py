@@ -39,5 +39,5 @@ def download(size):
 
 if __name__ == "__main__":
     # 1 - 10 MB file size
-    total = random.uniform(1.0, 10.0) * 2**20
+    total = int(random.uniform(1.0, 10.0) * 2**20)
     download(total)
