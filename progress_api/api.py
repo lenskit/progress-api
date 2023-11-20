@@ -59,7 +59,7 @@ class Progress(ABC):
         self.finish()
 
 
-def progress(
+def makeProgress(
     logger: Optional[str | Logger] = None,
     label: Optional[str] = None,
     total: Optional[int] = None,
