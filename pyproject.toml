@@ -40,6 +40,7 @@ GitHub = "https://github.com/lenskit/progress-api"
 
 [project.entry-points."progress_api.backend"]
 null = "progress_api.backends.null:NullProgressBackend"
+tqdm = "progress_api.backends.tqdm:TQDMProgressBackend"
 
 # configure build tools
 [tool.flit.sdist]
