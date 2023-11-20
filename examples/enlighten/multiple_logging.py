@@ -73,16 +73,16 @@ def process_files():
                 system.update()  # Update count
                 time.sleep(random.uniform(0.001, 0.005))  # Random processing time
 
-            system.close()  # Close counter so it gets removed
+            system.finish()  # Close counter so it gets removed
             # Log status
             LOGGER.info("Updated %d files on System %d in Datacenter %d", files, s_num, d_num)
             datacenter.update()  # Update count
 
-        datacenter.close()  # Close counter so it gets removed
+        datacenter.finish()  # Close counter so it gets removed
 
         enterprise.update()  # Update count
 
-    enterprise.close()  # Close counter, won't be removed but does a refresh
+    enterprise.finish()  # Close counter, won't be removed but does a refresh
 
 
 def main():
