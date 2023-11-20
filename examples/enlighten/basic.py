@@ -10,7 +10,7 @@ Simple progress bar example
 
 import time
 
-from progress_api import makeProgress
+from progress_api import make_progress
 
 
 def process_files():
@@ -18,7 +18,7 @@ def process_files():
     Process files with a single progress bar
     """
 
-    with makeProgress(total=100, label="Simple", unit="ticks") as pbar:
+    with make_progress(total=100, label="Simple", unit="ticks") as pbar:
         for _ in range(100):
             time.sleep(0.05)
             pbar.update()

@@ -14,7 +14,7 @@ import random
 import time
 import sys
 
-from progress_api import makeProgress
+from progress_api import make_progress
 
 # Hack so imports work regardless of how this gets called
 # We do it this way so any enlighten path can be used
@@ -32,7 +32,7 @@ def initialize(initials=15):
     """
 
     # Simulated preparation
-    pbar = makeProgress(total=initials, label="Initializing:", unit="initials")
+    pbar = make_progress(total=initials, label="Initializing:", unit="initials")
     for _ in range(initials):
         time.sleep(random.uniform(0.05, 0.25))  # Random processing time
         pbar.update()

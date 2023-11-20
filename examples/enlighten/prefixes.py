@@ -11,7 +11,7 @@ Progress bar using binary prefixes
 import time
 import random
 
-from progress_api.api import makeProgress
+from progress_api.api import make_progress
 
 # 64k chunk size
 CHUNK_SIZE = 64 * 1024
@@ -27,7 +27,7 @@ def download(size):
     Simulate a download
     """
 
-    pbar = makeProgress(total=size, label="Downloading", unit="bytes")
+    pbar = make_progress(total=size, label="Downloading", unit="bytes")
 
     bytes_left = size
     while bytes_left:

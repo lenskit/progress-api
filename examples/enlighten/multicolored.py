@@ -12,7 +12,7 @@ import logging
 import random
 import time
 
-from progress_api.api import makeProgress
+from progress_api.api import make_progress
 
 logging.basicConfig(level=logging.INFO)
 LOGGER = logging.getLogger("enlighten")
@@ -89,7 +89,7 @@ def run_tests(tests=100):
     Tests will error (yellow), fail (red), or succeed (green)
     """
 
-    pb = makeProgress(
+    pb = make_progress(
         total=tests, label="Testing", unit="tests", states=["finished", "errored", "failed"]
     )
 
@@ -113,7 +113,7 @@ def load(units=80):
     States are connecting (red), loading (yellow), and loaded (green)
     """
 
-    pb = makeProgress(
+    pb = make_progress(
         total=units,
         label="Loading",
         unit="services",

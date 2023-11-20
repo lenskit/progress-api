@@ -14,7 +14,7 @@ import platform
 import random
 import time
 
-from progress_api.api import makeProgress
+from progress_api.api import make_progress
 
 
 logging.basicConfig(level=logging.INFO)
@@ -50,20 +50,20 @@ def process_files():
     """
 
     # Get a top level progress bar
-    enterprise = makeProgress(total=DATACENTERS, label="Processing:", unit="datacenters")
+    enterprise = make_progress(total=DATACENTERS, label="Processing:", unit="datacenters")
 
     # Iterate through data centers
     for d_num in range(1, DATACENTERS + 1):
         systems = random.randint(*SYSTEMS)  # Random number of systems
         # Get a child progress bar. leave is False so it can be replaced
-        datacenter = makeProgress(
+        datacenter = make_progress(
             total=systems, label="  Datacenter %d:" % d_num, unit="systems", leave=False
         )
 
         # Iterate through systems
         for s_num in range(1, systems + 1):
             # Has no total, so will act as counter. Leave is False
-            system = makeProgress(label="    System %d:" % s_num, unit="files", leave=False)
+            system = make_progress(label="    System %d:" % s_num, unit="files", leave=False)
             files = random.randint(*FILES)  # Random file count
 
             # Iterate through files
