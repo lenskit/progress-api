@@ -50,7 +50,9 @@ def process_files():
     """
 
     # Get a top level progress bar
-    enterprise = make_progress(total=DATACENTERS, label="Processing:", unit="datacenters")
+    enterprise = make_progress(
+        total=DATACENTERS, label="Processing:", unit="datacenters", leave=True
+    )
 
     # Iterate through data centers
     for d_num in range(1, DATACENTERS + 1):

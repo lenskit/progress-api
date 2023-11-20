@@ -66,6 +66,7 @@ def make_progress(
     unit: Optional[str] = None,
     states: Optional[List[str]] = None,
     finish_state: Optional[str] = None,
+    leave: bool = False,
 ):
     """
     Create a progress bar.
@@ -86,6 +87,8 @@ def make_progress(
             The label for the “finished” state.  If this is not supplied, a state
             named “finished” is used if supplied in “states”; otherwise, the first
             state in “states” is considered finished.
+        leave:
+            Whether to leave the progress bar visible after it has finished.
     """
     if logger is None:
         logger = getLogger()
@@ -101,5 +104,5 @@ def make_progress(
         else:
             finish_state = states[0]
 
-    spec = backends.ProgressBarSpec(logger, label, total, unit, states, finish_state)
+    spec = backends.ProgressBarSpec(logger, label, total, unit, states, finish_state, leave)
     return config.get_backend().create_bar(spec)
