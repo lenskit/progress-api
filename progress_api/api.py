@@ -1,9 +1,9 @@
+from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import Optional
+from typing import Optional, List
 from logging import Logger, getLogger
 
-from . import config
-from .backends import ProgressBarSpec
+from . import backends, config
 
 
 class Progress(ABC):
@@ -64,7 +64,7 @@ def progress(
     label: Optional[str] = None,
     total: Optional[int] = None,
     unit: Optional[str] = None,
-    states: Optional[list[str]] = None,
+    states: Optional[List[str]] = None,
     finish_state: Optional[str] = None,
 ):
     """
@@ -87,7 +87,6 @@ def progress(
             named “finished” is used if supplied in “states”; otherwise, the first
             state in “states” is considered finished.
     """
-
     if logger is None:
         logger = getLogger()
     elif isinstance(logger, str):
@@ -102,5 +101,5 @@ def progress(
         else:
             finish_state = states[0]
 
-    spec = ProgressBarSpec(logger, label, total, unit, states, finish_state)
-    return config.backend.create_bar(spec)
+    spec = backends.ProgressBarSpec(logger, label, total, unit, states, finish_state)
+    return config.get_backend().create_bar(spec)

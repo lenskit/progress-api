@@ -38,6 +38,9 @@ doc = [
 Homepage = "https://progress-api.lenksit.org"
 GitHub = "https://github.com/lenskit/progress-api"
 
+[project.entry-points."progress_api.backend"]
+null = "progress_api.backends.null:NullProgressBackend"
+
 # configure build tools
 [tool.flit.sdist]
 include = ["tests/*"]

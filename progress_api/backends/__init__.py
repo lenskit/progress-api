@@ -3,12 +3,13 @@ Package containing backends and the backend interface for the progress API. This
 package provides several backends, but the API is not limited to the supplied
 backends.
 """
-
+from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import Optional
+from typing import Optional, List
 from logging import Logger
-from dataclasses import dataclass
-from progress_api import Progress
+from dataclasses import dataclass, field
+
+from .. import api
 
 
 @dataclass
@@ -39,7 +40,7 @@ class ProgressBarSpec:
     List of states for backends that support multiple progress bars.  If no
     states were specified by the caller, this contains one state ``'finished'``.
     """
-    states: list[str] = ["finished"]
+    states: List[str] = field(default_factory=lambda: ["finished"])
     """
     The name of the state designaged for completed or finished tasks.
     """
@@ -49,10 +50,13 @@ class ProgressBarSpec:
 class ProgressBackend(ABC):
     """
     Interface to be implemented by progress API backends.
+
+    .. note::
+        Progress backends must be thread-safe.
     """
 
     @abstractmethod
-    def create_bar(self, spec: ProgressBarSpec) -> Progress:
+    def create_bar(self, spec: ProgressBarSpec) -> api.Progress:
         """
         Create a new progress bar from the given specification.
         """

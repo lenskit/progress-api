@@ -1,12 +1,49 @@
-from .backends import ProgressBackend
-from .backends.null import NullProgressBackend
+from __future__ import annotations
+import threading
+import os
+from importlib.metadata import entry_points
 
-backend = NullProgressBackend()
+from . import backends
+
+_backend_lock = threading.Lock()
+_backend = None
 
 
-def set_backend(impl: ProgressBackend):
+def _lazy_init():
+    if _backend is not None:
+        return
+
+    env = os.environ.get("PROGRESS_BACKEND", None)
+    if env:
+        set_backend(env)
+    else:
+        from .backends.null import NullProgressBackend
+
+        set_backend(NullProgressBackend())
+
+
+def get_backend() -> backends.ProgressBackend:
+    global _backend
+    if threading.active_count() <= 1:
+        _lazy_init()
+    else:
+        with _backend_lock:
+            _lazy_init()
+
+    return _backend
+
+
+def set_backend(impl: str | backends.ProgressBackend):
     """
     Set up a progress backend.
     """
-    global backend
-    backend = impl
+    global _backend
+
+    if isinstance(impl, str):
+        eps = entry_points(name=impl, group="progress_api.backend")
+        if eps:
+            impl = eps[0]
+        else:
+            raise ValueError(f"unknown progress backend {impl}")
+
+    _backend = impl

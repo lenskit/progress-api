@@ -1,9 +1,10 @@
 """
 Null backend that doesn't supply any progress.
 """
-
+from __future__ import annotations
 from typing import Optional
-from . import ProgressBackend, Progress, ProgressBarSpec
+from .. import api
+from . import ProgressBackend, ProgressBarSpec
 
 
 class NullProgressBackend(ProgressBackend):
@@ -11,11 +12,11 @@ class NullProgressBackend(ProgressBackend):
     Progress bar backend that doesn't emit any progress.
     """
 
-    def create_bar(self, spec: ProgressBarSpec) -> Progress:
+    def create_bar(self, spec: ProgressBarSpec) -> api.Progress:
         return NullProgress()
 
 
-class NullProgress(Progress):
+class NullProgress(api.Progress):
     def set_label(self, label: Optional[str]):
         pass
 
