@@ -33,7 +33,9 @@ def get_backend() -> backends.ProgressBackend:
     return _backend
 
 
-def set_backend(impl: str | backends.ProgressBackend):
+def set_backend(
+    impl: str | backends.ProgressBackend | type[backends.ProgressBackend], *args, **kwargs
+):
     """
     Set up a progress backend.
     """
@@ -43,8 +45,9 @@ def set_backend(impl: str | backends.ProgressBackend):
         eps = entry_points(name=impl, group="progress_api.backend")
         if eps:
             impl = eps[0].load()
-            impl = impl()
         else:
             raise ValueError(f"unknown progress backend {impl}")
 
+    if isinstance(impl, type):
+        impl = impl(*args, **kwargs)
     _backend = impl
