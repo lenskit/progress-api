@@ -10,6 +10,9 @@ class Progress(ABC):
     """
     Uniform interface to progress reporting APIs.
 
+    Progress bars can be used as context managers; :meth:`finish` is called
+    when the context is exited.
+
     Attributes:
         name: The name of the logger this progress bar is attached to.
     """
@@ -48,6 +51,12 @@ class Progress(ABC):
         Finish and close this progress bar, releasing resources as appropriate.
         """
         raise NotImplementedError()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        self.finish()
 
 
 def progress(
