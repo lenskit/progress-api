@@ -27,7 +27,7 @@ def download(size):
     Simulate a download
     """
 
-    pbar = make_progress(total=size, label="Downloading", unit="bytes")
+    pbar = make_progress(total=size, label="Downloading", unit="bytes", states=["downloaded"])
 
     bytes_left = size
     while bytes_left:

@@ -67,8 +67,7 @@ def make_progress(
     label: Optional[str] = None,
     total: Optional[int] = None,
     unit: Optional[str] = None,
-    states: Optional[List[str]] = None,
-    finish_state: Optional[str] = None,
+    states: Optional[str | List[str]] = None,
     leave: bool = False,
 ):
     """
@@ -82,15 +81,14 @@ def make_progress(
             A label for the units.  If 'bytes' is supplied, some backends will
             use binary suffixes (MiB, etc.).
         states:
-            A label for different states to display, when displaying a multi-state
-            progress bar.  Not all backends support multiple states.  States are
-            typically displayed in order.  Callers do not need to supply an
-            unfinished state.  The order matters: it is expected that items progress
-            from the last state to the first.
-        finish_state:
-            The label for the “finished” state.  If this is not supplied, a state
-            named “finished” is used if supplied in “states”; otherwise, the first
-            state in “states” is considered finished.
+            The names of different states for a multi-state progress bar.  Not
+            all backends support multiple states.  States are typically
+            displayed in order; when states indicate a progression of item
+            states, items are assumed to progress from the last state to the
+            first. The first state is considered the “finished” state, when such
+            things matter.  If not supplied, the default is a single state
+            “finished”. A single state can be provided as a string for
+            convenience.
         leave:
             Whether to leave the progress bar visible after it has finished.
     """
@@ -99,14 +97,8 @@ def make_progress(
     elif isinstance(logger, str):
         logger = getLogger(logger)
 
-    if states is None:
+    if not states:
         states = ["finished"]
 
-    if finish_state is None:
-        if "finished" in states:
-            finish_state = "finished"
-        else:
-            finish_state = states[0]
-
-    spec = backends.ProgressBarSpec(logger, label, total, unit, states, finish_state, leave)
+    spec = backends.ProgressBarSpec(logger, label, total, unit, states, leave)
     return config.get_backend().create_bar(spec)

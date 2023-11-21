@@ -42,10 +42,6 @@ class ProgressBarSpec:
     """
     states: List[str] = field(default_factory=lambda: ["finished"])
     """
-    The name of the state designaged for completed or finished tasks.
-    """
-    finish_state: str = "finished"
-    """
     Whether the progress bar should remain visible after completion.
     """
     leave: bool = False
