@@ -76,7 +76,15 @@ if __name__ == "__main__":
     if os.environ.get("PROGRESS_BACKEND", None) == "enlighten":
         set_backend(
             EnlightenProgressBackend(
-                state_colors={"loaded": "green", "loading": "yellow", "connecting": "blue"}
+                state_colors={
+                    "loaded": "green",
+                    "loading": "yellow",
+                    "connecting": "blue",
+                    "downloaded": "purple",
+                    "passed": "green",
+                    "failed": "red",
+                    "errored": "yellow",
+                }
             )
         )
 

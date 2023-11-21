@@ -90,7 +90,7 @@ def run_tests(tests=100):
     """
 
     pb = make_progress(
-        total=tests, label="Testing", unit="tests", states=["finished", "errored", "failed"]
+        total=tests, label="Testing", unit="tests", states=["passed", "errored", "failed"]
     )
 
     for num in range(tests):
@@ -118,7 +118,6 @@ def load(units=80):
         label="Loading",
         unit="services",
         states=["loaded", "loading", "connecting"],
-        finish_state="loaded",
     )
 
     connecting = []
