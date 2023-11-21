@@ -5,11 +5,27 @@ backends.
 """
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import Optional, List
+from typing import Optional, List, NamedTuple
 from logging import Logger
 from dataclasses import dataclass, field
 
 from .. import api
+
+
+class ProgressState(NamedTuple):
+    """
+    Representation of a progress bar state.
+    """
+
+    """
+    The state name.
+    """
+    name: str
+    """
+    Whether this is a final state (an outcome).  Backends that do not support
+    multiple states should report the sum of all final states.
+    """
+    final: bool = True
 
 
 @dataclass
@@ -37,10 +53,10 @@ class ProgressBarSpec:
     """
     unit: Optional[str] = None
     """
-    List of states for backends that support multiple progress bars.  If no
-    states were specified by the caller, this contains one state ``'finished'``.
+    List of progress states.  If no states were specified by the caller, this
+    contains one final state ``'finished'``.
     """
-    states: List[str] = field(default_factory=lambda: ["finished"])
+    states: List[str] = field(default_factory=lambda: [ProgressState("finished")])
     """
     Whether the progress bar should remain visible after completion.
     """

@@ -67,11 +67,13 @@ def make_progress(
     label: Optional[str] = None,
     total: Optional[int] = None,
     unit: Optional[str] = None,
+    outcomes: Optional[str | List[str]] = None,
     states: Optional[str | List[str]] = None,
     leave: bool = False,
-):
+) -> Progress:
     """
-    Create a progress bar.
+    Primary API for creating progress reporters.  This is the function client
+    code will use the most often.
 
     Args:
         logger: The logger to attach this progress to.
@@ -80,15 +82,16 @@ def make_progress(
         unit:
             A label for the units.  If 'bytes' is supplied, some backends will
             use binary suffixes (MiB, etc.).
+        outcomes:
+            The names of different outcomes for a multi-state progres bar.  Not
+            all backends support multiple states.  Outcomes are not considered
+            an ordered sequence — all outcomes are considered successful.
         states:
-            The names of different states for a multi-state progress bar.  Not
-            all backends support multiple states.  States are typically
+            The names of different sequential states for a multi-state progress bars.
+            Not all backends support multiple states.  States are typically
             displayed in order; when states indicate a progression of item
             states, items are assumed to progress from the last state to the
-            first. The first state is considered the “finished” state, when such
-            things matter.  If not supplied, the default is a single state
-            “finished”. A single state can be provided as a string for
-            convenience.
+            first.
         leave:
             Whether to leave the progress bar visible after it has finished.
     """
@@ -97,8 +100,14 @@ def make_progress(
     elif isinstance(logger, str):
         logger = getLogger(logger)
 
-    if not states:
-        states = ["finished"]
+    if outcomes:
+        sl = [backends.ProgressState(s, True) for s in outcomes]
+        if states:
+            sl += [backends.ProgressState(s, False) for s in states]
+    elif states:
+        sl = [backends.ProgressState(s, i == 0) for (i, s) in enumerate(states)]
+    else:
+        sl = [backends.ProgressState("finished", True)]
 
-    spec = backends.ProgressBarSpec(logger, label, total, unit, states, leave)
+    spec = backends.ProgressBarSpec(logger, label, total, unit, sl, leave)
     return config.get_backend().create_bar(spec)

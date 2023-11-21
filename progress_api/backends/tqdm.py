@@ -1,5 +1,5 @@
 """
-Null backend that doesn't supply any progress.
+Progress bar backend for {mod}`tqdm`.
 """
 from __future__ import annotations
 from typing import Optional
@@ -11,7 +11,7 @@ from tqdm.auto import tqdm as auto_tqdm
 
 class TQDMProgressBackend(ProgressBackend):
     """
-    Progress bar backend that doesn't emit any progress.
+    TQDM progress bar backend implementation.
     """
 
     def __init__(self, tqdm=auto_tqdm):
@@ -25,10 +25,12 @@ class TQDMProgressBackend(ProgressBackend):
 class TQDMProgress(api.Progress):
     spec: ProgressBarSpec
     tqdm: tqdm
+    final_states: set[str]
 
     def __init__(self, spec: ProgressBarSpec, tqdm: tqdm):
         self.spec = spec
         self.tqdm = tqdm
+        self.final_states = set(s.name for s in spec.states if s.final)
 
     def set_label(self, label: Optional[str]):
         self.tqdm.set_description(label)
@@ -37,7 +39,7 @@ class TQDMProgress(api.Progress):
         self.tqdm.total = total
 
     def update(self, n: int = 1, state: Optional[str] = None, src_state: Optional[str] = None):
-        if state is None or state == self.spec.finish_state:
+        if state is None or state in self.final_states and src_state not in self.final_states:
             self.tqdm.update(n)
 
     def finish(self):

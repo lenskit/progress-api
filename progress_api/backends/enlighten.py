@@ -52,10 +52,10 @@ class EnlightenProgressBackend(ProgressBackend):
             # when there is more than 1 state, we use subcounters for everything
             bars = {
                 state: bar.add_subcounter(self.state_colors.get(state, None))
-                for state in reversed(spec.states)
+                for (state, _f) in reversed(spec.states)
             }
         else:
-            bars = {spec.states[0]: bar}
+            bars = {spec.states[0].name: bar}
 
         return EnlightenProgress(spec, bar, bars)
 
@@ -78,7 +78,7 @@ class EnlightenProgress(api.Progress):
 
     def update(self, n: int = 1, state: Optional[str] = None, src_state: Optional[str] = None):
         if state is None:
-            state = self.spec.states[0]
+            state = self.spec.states[0].name
         bar = self.bars[state]
         if src_state:
             src = self.bars[src_state]
