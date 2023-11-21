@@ -26,12 +26,13 @@ dev = [
   "flit >=3.8",
   "ruff",
   "copier",
+  "sphinx-autobuild",
 ]
 test = [
   "pytest >=7",
 ]
 doc = [
-  "sphinx >=4",
+  "sphinx >=4.2",
   "sphinxext-opengraph >= 0.5",
   "furo",
 ]
