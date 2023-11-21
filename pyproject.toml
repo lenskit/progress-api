@@ -5,7 +5,7 @@ build-backend = "flit_core.buildapi"
 [project]
 name = "progress-api"
 authors = [
-  {name="Michael Ekstrand", email="mdekstrand@drexel.edu"}
+  { name = "Michael Ekstrand", email = "mdekstrand@drexel.edu" },
 ]
 classifiers = [
   "License :: OSI Approved :: MIT License",
@@ -28,10 +28,12 @@ dev = [
   "copier",
 ]
 test = [
-  "pytest >=7"
+  "pytest >=7",
 ]
 doc = [
-  "sphinx >=4"
+  "sphinx >=4",
+  "sphinxext-opengraph >= 0.5",
+  "furo",
 ]
 
 [project.urls]
@@ -47,7 +49,7 @@ enlighten = "progress_api.backends.enlighten:EnlightenProgressBackend"
 [tool.flit.sdist]
 include = ["tests/*"]
 exclude = [
-  ".github"
+  ".github",
 ]
 
 # need this for the SCM plugins to work
