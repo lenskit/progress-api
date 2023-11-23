@@ -1,5 +1,10 @@
 """
-Progress bar backend for {mod}`tqdm`.
+Progress bar backend for `tqdm`_.  This backend is quite limited;
+it does not support multiple states, and it does not have good
+support for multiple progress bars or inteaction with logging,
+unless used in a Jupyter notebook environment.
+
+.. _tqdm: https://tqdm.github.io/docs/tqdm/
 """
 from __future__ import annotations
 from typing import Optional
@@ -14,7 +19,7 @@ class TQDMProgressBackend(ProgressBackend):
     TQDM progress bar backend implementation.
     """
 
-    def __init__(self, tqdm=auto_tqdm):
+    def __init__(self, tqdm: "tqdm" = auto_tqdm):
         self.tqdm = tqdm
 
     def create_bar(self, spec: ProgressBarSpec) -> api.Progress:
@@ -27,7 +32,7 @@ class TQDMProgress(api.Progress):
     tqdm: tqdm
     final_states: set[str]
 
-    def __init__(self, spec: ProgressBarSpec, tqdm: tqdm):
+    def __init__(self, spec: ProgressBarSpec, tqdm: "tqdm"):
         self.spec = spec
         self.tqdm = tqdm
         self.final_states = set(s.name for s in spec.states if s.final)

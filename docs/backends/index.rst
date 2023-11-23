@@ -18,6 +18,28 @@ or with the :py:func:`~progress_api.set_backend` function.
 
 .. autofunction:: progress_api.set_backend
 
+Provided Backends
+-----------------
+
+Enlighten
+~~~~~~~~~
+
+.. automodule:: progress_api.backends.enlighten
+    :members: EnlightenProgressBackend
+
+TQDM
+~~~~
+
+.. automodule:: progress_api.backends.tqdm
+    :members: TQDMProgressBackend
+
+Null
+~~~~
+
+.. automodule:: progress_api.backends.null
+    :members: NullProgressBackend
+
+
 Implementing Backends
 ---------------------
 

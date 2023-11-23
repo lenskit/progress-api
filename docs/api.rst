@@ -47,7 +47,9 @@ as follows:
     configured with a single final state ``'finished'``.
 
 State names usually aren't displayed, but they can be logged by backends, and
-configurable backends will use them to determine colors or other visuals.
+configurable backends will use them to determine colors or other visuals. Backends
+that only support a single state should report the sum of all final states as their
+completed item count.
 
 It is not recommended to include an initial state; the initial state can
 be modeled by the fraction of the total that has not yet been added to any
