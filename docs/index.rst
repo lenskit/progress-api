@@ -23,4 +23,5 @@ Documentation Sections
 .. toctree::
     :maxdepth: 2
 
-    api.rst
+    api
+    backends/index

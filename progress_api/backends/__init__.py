@@ -5,7 +5,7 @@ backends.
 """
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import Optional, List, NamedTuple
+from typing import Optional, NamedTuple
 from logging import Logger
 from dataclasses import dataclass, field
 
@@ -17,15 +17,16 @@ class ProgressState(NamedTuple):
     Representation of a progress bar state.
     """
 
+    name: str
     """
     The state name.
     """
-    name: str
+
+    final: bool = True
     """
     Whether this is a final state (an outcome).  Backends that do not support
     multiple states should report the sum of all final states.
     """
-    final: bool = True
 
 
 @dataclass
@@ -35,32 +36,32 @@ class ProgressBarSpec:
     bar from the backend.
     """
 
+    logger: Logger
     """
     The logger this progress bar is attached to.
     """
-    logger: Logger
+    label: Optional[str] = None
     """
     The progress bar label (called a description in some backends).
     """
-    label: Optional[str] = None
+    total: Optional[int] = None
     """
     The initial total number of tasks/bytes/objects in the progress bar.
     """
-    total: Optional[int] = None
+    unit: Optional[str] = None
     """
     The progress bar's units.  Backens that support binary byte counts should
     recognize the ``bytes`` unit here.
     """
-    unit: Optional[str] = None
+    states: list[ProgressState] = field(default_factory=lambda: [ProgressState("finished")])
     """
     List of progress states.  If no states were specified by the caller, this
     contains one final state ``'finished'``.
     """
-    states: List[str] = field(default_factory=lambda: [ProgressState("finished")])
+    leave: bool = False
     """
     Whether the progress bar should remain visible after completion.
     """
-    leave: bool = False
 
 
 class ProgressBackend(ABC):

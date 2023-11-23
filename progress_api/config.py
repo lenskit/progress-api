@@ -37,7 +37,20 @@ def set_backend(
     impl: str | backends.ProgressBackend | type[backends.ProgressBackend], *args, **kwargs
 ):
     """
-    Set up a progress backend.
+    Set the progress backend.  The backend can be specified in one of several ways:
+
+    *   A string naming a progress backend.  For the backends included with Progress API,
+        this name matches the implementing module name (e.g. ``"enlighten"``).  Other
+        backends can be registered with an entry point (see :ref:`implementing-backends`).
+    *   An object implementing the :class:`backends.ProgressBackend` interface.
+    *   A subclass of :class:`backends.ProgressBackend` that to instantiate.
+
+    If the backend is a class (ether a class object, or a backend name), then it is
+    instantiated witht he supplied ``args`` and ``kwargs``.
+
+    Args:
+        impl: The implementation.
+        *args, **kwargs: Arguments to pass to the implementation constructor.
     """
     global _backend
 

@@ -1,6 +1,6 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import Optional, List
+from typing import Optional
 from logging import Logger, getLogger
 
 from . import backends, config
@@ -64,8 +64,8 @@ def make_progress(
     label: Optional[str] = None,
     total: Optional[int] = None,
     unit: Optional[str] = None,
-    outcomes: Optional[str | List[str]] = None,
-    states: Optional[str | List[str]] = None,
+    outcomes: Optional[str | list[str]] = None,
+    states: Optional[str | list[str]] = None,
     leave: bool = False,
 ) -> Progress:
     """
