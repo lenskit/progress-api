@@ -40,6 +40,8 @@ doc = [
   "sphinx >=4.2",
   "sphinxext-opengraph >= 0.5",
   "furo",
+  "enlighten",
+  "tqdm",
 ]
 
 [project.urls]
