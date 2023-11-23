@@ -1,9 +1,10 @@
 [build-system]
-requires = ["flit_core >=3.2,<4"]
-build-backend = "flit_core.buildapi"
+requires = ["setuptools>=64", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "progress-api"
+description = "Backend-agnostic progress reporting API"
 authors = [
   { name = "Michael Ekstrand", email = "mdekstrand@drexel.edu" },
 ]
@@ -17,13 +18,16 @@ classifiers = [
 requires-python = ">= 3.10"
 readme = "README.md"
 license = { file = "LICENSE.md" }
-dynamic = ["version", "description"]
+dynamic = ["version"]
 dependencies = [
 ]
 
 [project.optional-dependencies]
 dev = [
-  "flit >=3.8",
+  "hatch",
+  "hatch-vcs",
+  "build",
+  "twine",
   "ruff",
   "copier",
   "sphinx-autobuild",
@@ -47,6 +51,16 @@ tqdm = "progress_api.backends.tqdm:TQDMProgressBackend"
 enlighten = "progress_api.backends.enlighten:EnlightenProgressBackend"
 
 # configure build tools
+[tool.setuptools_scm]
+
+[tool.hatch.build]
+exclude = [
+  ".*/",
+]
+
+[tool.hatch.version]
+source = "vcs"
+
 [tool.flit.sdist]
 include = ["tests/*"]
 exclude = [
