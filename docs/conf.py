@@ -4,7 +4,7 @@ sys.path.insert(0, os.path.abspath(".."))
 
 import progress_api
 
-project = "Progress API""
+project = "Progress API"
 copyright = "2023 Michael Ekstrand"
 author = "Michael D. Ekstrand"
 

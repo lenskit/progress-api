@@ -41,10 +41,7 @@ class Progress(ABC):
         Args:
             n: the amount to increment the progress bar counter by.
             state: the name of the progress bar state to increment.
-            src_state: the state to move the progress items from, if applicable.  This should
-                never be supplied when ``state`` is the last state provided to {meth}`makeProgress`,
-                as it is the *first* state items are considered able to enter; not all backends
-                support moving into the initial state from another state.
+            src_state: the state to move the progress items from, if applicable.
         """
         raise NotImplementedError()
 
@@ -75,6 +72,10 @@ def make_progress(
     Primary API for creating progress reporters.  This is the function client
     code will use the most often.
 
+    The ``outcomes`` and ``states`` variables configure multiple states for
+    multi-state progress bars.  See :ref:`states` for details on how states
+    are handled and how these arguments configure them.
+
     Args:
         logger: The logger to attach this progress to.
         label: A label for the progress display.
@@ -83,15 +84,9 @@ def make_progress(
             A label for the units.  If 'bytes' is supplied, some backends will
             use binary suffixes (MiB, etc.).
         outcomes:
-            The names of different outcomes for a multi-state progres bar.  Not
-            all backends support multiple states.  Outcomes are not considered
-            an ordered sequence — all outcomes are considered successful.
+            The names of different outcomes for a multi-state progress bar
         states:
             The names of different sequential states for a multi-state progress bars.
-            Not all backends support multiple states.  States are typically
-            displayed in order; when states indicate a progression of item
-            states, items are assumed to progress from the last state to the
-            first.
         leave:
             Whether to leave the progress bar visible after it has finished.
     """
