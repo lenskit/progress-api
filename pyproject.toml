@@ -53,23 +53,8 @@ enlighten = "progress_api.backends.enlighten:EnlightenProgressBackend"
 # configure build tools
 [tool.setuptools_scm]
 
-[tool.hatch.build]
-exclude = [
-  ".*/",
-]
-
-[tool.hatch.version]
-source = "vcs"
-
-[tool.flit.sdist]
-include = ["tests/*"]
-exclude = [
-  ".github",
-]
-
-# need this for the SCM plugins to work
-[tool.setuptools.packages.find]
-exclude = ["envs"]
+[tool.setuptools]
+packages = ["progress_api"]
 
 # settings for generating conda environments for dev & CI, when needed
 [tool.pyproject2conda]
