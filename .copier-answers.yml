@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier
-_commit: 4a8d7e8
+_commit: 13cb334
 _src_path: https://github.com/lenskit/lk-project-template.git
 package_name: progress_api
 project_name: progress-api

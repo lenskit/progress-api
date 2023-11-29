@@ -25,10 +25,13 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
+<<<<<<< before updating
   "hatch",
   "hatch-vcs",
   "build",
   "twine",
+=======
+>>>>>>> after updating
   "ruff",
   "copier",
   "sphinx-autobuild",
@@ -54,10 +57,10 @@ tqdm = "progress_api.backends.tqdm:TQDMProgressBackend"
 enlighten = "progress_api.backends.enlighten:EnlightenProgressBackend"
 
 # configure build tools
-[tool.setuptools_scm]
-
 [tool.setuptools]
 packages = ["progress_api"]
+
+[tool.setuptools_scm]
 
 # settings for generating conda environments for dev & CI, when needed
 [tool.pyproject2conda]
