@@ -25,13 +25,6 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-<<<<<<< before updating
-  "hatch",
-  "hatch-vcs",
-  "build",
-  "twine",
-=======
->>>>>>> after updating
   "ruff",
   "copier",
   "sphinx-autobuild",
