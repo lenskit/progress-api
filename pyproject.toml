@@ -25,6 +25,8 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
+  "setuptools>=64",
+  "setuptools_scm>=8",
   "ruff",
   "copier",
   "sphinx-autobuild",
