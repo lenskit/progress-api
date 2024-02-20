@@ -35,6 +35,8 @@ dev = [
   "ipython",
   "pyproject2conda ",
   "sphinx-autobuild",
+  "enlighten ==1.*",
+  "tqdm ==4.*",
 ]
 test = [
   "pytest >=7",
