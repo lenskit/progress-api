@@ -1,3 +1,7 @@
+# This file is from Enlighten, distributed with Progress API.
+# Licensed under the Mozilla Public License, see LICENSE for details.
+# SPDX-License-Identifier: MPL
+
 # Copyright 2017 - 2020 Avram Lubkin, All Rights Reserved
 
 # This Source Code Form is subject to the terms of the Mozilla Public

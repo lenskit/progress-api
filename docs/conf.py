@@ -1,3 +1,8 @@
+# This file is part of Progress API.
+# Copyright (C) 2023 - 2024 Drexel University and contributors
+# Licensed under the MIT license, see LICENSE.md for details.
+# SPDX-License-Identifier: MIT
+
 import os
 import sys
 sys.path.insert(0, os.path.abspath(".."))

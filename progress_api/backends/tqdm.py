@@ -1,3 +1,8 @@
+# This file is part of Progress API.
+# Copyright (C) 2023 - 2024 Drexel University and contributors
+# Licensed under the MIT license, see LICENSE.md for details.
+# SPDX-License-Identifier: MIT
+
 """
 Progress bar backend for `tqdm`_.  This backend is quite limited;
 it does not support multiple states, and it does not have good

@@ -1,3 +1,8 @@
+# This file is part of Progress API.
+# Copyright (C) 2023 - 2024 Drexel University and contributors
+# Licensed under the MIT license, see LICENSE.md for details.
+# SPDX-License-Identifier: MIT
+
 """
 Progress backend using `Enlighten`_ to display progress bars.  It supports
 multiple bars (well) and multi-state bars, and interacts well with logging

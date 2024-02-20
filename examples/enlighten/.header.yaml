@@ -1,0 +1,7 @@
+owner: Enlighten authors
+substring: This file is from
+template: |-
+  {comment_start} This file is from Enlighten, distributed with Progress API.
+  {comment_middle} Licensed under the Mozilla Public License, see LICENSE for details.
+  {comment_middle} SPDX-License-Identifier: MPL
+  {comment_end}

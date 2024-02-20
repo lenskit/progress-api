@@ -1,3 +1,8 @@
+# This file is part of Progress API.
+# Copyright (C) 2023 - 2024 Drexel University and contributors
+# Licensed under the MIT license, see LICENSE.md for details.
+# SPDX-License-Identifier: MIT
+
 from __future__ import annotations
 
 from abc import ABC, abstractmethod

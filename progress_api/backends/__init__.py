@@ -1,3 +1,8 @@
+# This file is part of Progress API.
+# Copyright (C) 2023 - 2024 Drexel University and contributors
+# Licensed under the MIT license, see LICENSE.md for details.
+# SPDX-License-Identifier: MIT
+
 """
 Package containing backends and the backend interface for the progress API. This
 package provides several backends, but the API is not limited to the supplied
