@@ -9,8 +9,10 @@ Backend-agnostic API for reporting progress.
 
 from importlib.metadata import PackageNotFoundError, version
 
-from .api import Progress, make_progress  # noqa: F401
-from .config import set_backend  # noqa: F401
+from .api import Progress, make_progress
+from .config import set_backend
+
+__all__ = ["Progress", "make_progress", "set_backend"]
 
 try:
     __version__ = version("progress-api")
