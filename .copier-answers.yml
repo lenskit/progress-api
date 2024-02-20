@@ -3,7 +3,7 @@ _commit: f9f4225
 _src_path: https://github.com/lenskit/lk-project-template.git
 owner: Drexel University and contributors
 package_name: progress_api
-project_descr: ''
+project_descr: Backend-agnostic API for reporting progress.
 project_name: progress-api
 project_title: Progress API
 require_lint: true

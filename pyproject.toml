@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "progress-api"
-description = "Backend-agnostic progress reporting API"
+description = "Backend-agnostic API for reporting progress."
 authors = [
   { name = "Michael Ekstrand", email = "mdekstrand@drexel.edu" },
 ]
