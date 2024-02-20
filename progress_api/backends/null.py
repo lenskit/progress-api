@@ -20,10 +20,13 @@ class NullProgressBackend(ProgressBackend):
     """
 
     def create_bar(self, spec: ProgressBarSpec) -> api.Progress:
-        return NullProgress()
+        return NullProgress(spec)
 
 
 class NullProgress(api.Progress):
+    def __init__(self, spec: ProgressBarSpec):
+        self.spec = spec
+
     def set_label(self, label: Optional[str]):
         pass
 

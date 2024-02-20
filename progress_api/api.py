@@ -25,6 +25,7 @@ class Progress(ABC):
     """
 
     name: str
+    spec: backends.ProgressBarSpec
 
     @abstractmethod
     def set_label(self, label: Optional[str]) -> None:
@@ -40,7 +41,9 @@ class Progress(ABC):
         """
         raise NotImplementedError()
 
-    def set_meter(self, label: str, value: int | str | float | None, fmt: str | None = None):
+    def set_meter(
+        self, label: str, value: int | str | float | None, fmt: str | None = None
+    ) -> None:
         """
         Set a meter on the progress bar.
 
