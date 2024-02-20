@@ -81,7 +81,7 @@ class EnlightenProgress(api.Progress):
         self.bars = bars
 
     def set_label(self, label: Optional[str]):
-        pass
+        self.bar.desc = label
 
     def set_total(self, total: int):
         self.bar.total = total
