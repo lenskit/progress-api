@@ -2,7 +2,9 @@
 Null backend that doesn't supply any progress.
 """
 from __future__ import annotations
+
 from typing import Optional
+
 from .. import api
 from . import ProgressBackend, ProgressBarSpec
 

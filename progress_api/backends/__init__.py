@@ -4,10 +4,11 @@ package provides several backends, but the API is not limited to the supplied
 backends.
 """
 from __future__ import annotations
+
 from abc import ABC, abstractmethod
-from typing import Optional, NamedTuple
-from logging import Logger
 from dataclasses import dataclass, field
+from logging import Logger
+from typing import NamedTuple, Optional
 
 from .. import api
 

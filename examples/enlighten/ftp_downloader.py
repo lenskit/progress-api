@@ -14,11 +14,11 @@ import os
 import enlighten
 
 
-SITE = 'test.rebex.net'
-USER = 'demo'
-PASSWD = 'password'
-DIR = 'pub/example'
-DEST = '/tmp'
+SITE = "test.rebex.net"
+USER = "demo"
+PASSWD = "password"
+DIR = "pub/example"
+DEST = "/tmp"
 DEBUG = 0  # 0, 1, 2 are valid
 MANAGER = enlighten.get_manager()
 
@@ -35,9 +35,10 @@ class Writer(object):
         self.status = self.fileobj = None
 
     def __enter__(self):
-        self.status = MANAGER.counter(total=self.size, desc=self.filename,
-                                      unit='bytes', leave=False)
-        self.fileobj = open(self.dest, 'wb')  # pylint: disable=consider-using-with
+        self.status = MANAGER.counter(
+            total=self.size, desc=self.filename, unit="bytes", leave=False
+        )
+        self.fileobj = open(self.dest, "wb")  # pylint: disable=consider-using-with
         return self
 
     def __exit__(self, *args):
@@ -62,18 +63,16 @@ def download():
     ftp.login(USER, PASSWD)
     ftp.cwd(DIR)
     filelist = ftp.nlst()
-    filecounter = MANAGER.counter(total=len(filelist), desc='Downloading',
-                                  unit='files')
+    filecounter = MANAGER.counter(total=len(filelist), desc="Downloading", unit="files")
 
     for filename in filelist:
-
         with Writer(filename, ftp.size(filename), DEST) as writer:
-            ftp.retrbinary('RETR %s' % filename, writer.write)
+            ftp.retrbinary("RETR %s" % filename, writer.write)
         print(filename)
         filecounter.update()
 
     ftp.close()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     download()

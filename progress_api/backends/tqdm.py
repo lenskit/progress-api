@@ -6,12 +6,16 @@ unless used in a Jupyter notebook environment.
 
 .. _tqdm: https://tqdm.github.io/docs/tqdm/
 """
+# pyright: basic
 from __future__ import annotations
+
 from typing import Optional
-from .. import api
-from . import ProgressBackend, ProgressBarSpec
+
 from tqdm import tqdm
 from tqdm.auto import tqdm as auto_tqdm
+
+from .. import api
+from . import ProgressBackend, ProgressBarSpec
 
 
 class TQDMProgressBackend(ProgressBackend):
@@ -19,11 +23,13 @@ class TQDMProgressBackend(ProgressBackend):
     TQDM progress bar backend implementation.
     """
 
-    def __init__(self, tqdm: "tqdm" = auto_tqdm):
+    tqdm: type[tqdm]
+
+    def __init__(self, tqdm: type[tqdm] = auto_tqdm):
         self.tqdm = tqdm
 
     def create_bar(self, spec: ProgressBarSpec) -> api.Progress:
-        tqdm = self.tqdm(total=spec.total, desc=spec.label, unit=spec.unit, leave=spec.leave)
+        tqdm = self.tqdm(total=spec.total, desc=spec.label, unit=spec.unit, leave=spec.leave)  # type: ignore
         return TQDMProgress(spec, tqdm)
 
 

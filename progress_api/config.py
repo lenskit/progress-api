@@ -1,12 +1,14 @@
 from __future__ import annotations
-import threading
+
 import os
+import threading
 from importlib.metadata import entry_points
+from typing import Any, cast
 
 from . import backends
 
 _backend_lock = threading.Lock()
-_backend = None
+_backend: backends.ProgressBackend | None = None
 
 
 def _lazy_init():
@@ -30,11 +32,13 @@ def get_backend() -> backends.ProgressBackend:
         with _backend_lock:
             _lazy_init()
 
+    if _backend is None:
+        raise RuntimeError("backend not initialized")
     return _backend
 
 
 def set_backend(
-    impl: str | backends.ProgressBackend | type[backends.ProgressBackend], *args, **kwargs
+    impl: str | backends.ProgressBackend | type[backends.ProgressBackend], *args: Any, **kwargs: Any
 ):
     """
     Set the progress backend.  The backend can be specified in one of several ways:
@@ -63,4 +67,4 @@ def set_backend(
 
     if isinstance(impl, type):
         impl = impl(*args, **kwargs)
-    _backend = impl
+    _backend = cast(backends.ProgressBackend, impl)

@@ -1,7 +1,9 @@
 from __future__ import annotations
+
 from abc import ABC, abstractmethod
-from typing import Optional
+from inspect import Traceback
 from logging import Logger, getLogger
+from typing import Optional
 
 from . import backends, config
 
@@ -20,21 +22,23 @@ class Progress(ABC):
     name: str
 
     @abstractmethod
-    def set_label(self, label: Optional[str]):
+    def set_label(self, label: Optional[str]) -> None:
         """
         Set a label to be used for this progress bar.
         """
         raise NotImplementedError()
 
     @abstractmethod
-    def set_total(self, total: int):
+    def set_total(self, total: int) -> None:
         """
         Update the progress bar's total.
         """
         raise NotImplementedError()
 
     @abstractmethod
-    def update(self, n: int = 1, state: Optional[str] = None, src_state: Optional[str] = None):
+    def update(
+        self, n: int = 1, state: Optional[str] = None, src_state: Optional[str] = None
+    ) -> None:
         """
         Update the progress bar.
 
@@ -46,7 +50,7 @@ class Progress(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def finish(self):
+    def finish(self) -> None:
         """
         Finish and close this progress bar, releasing resources as appropriate.
         """
@@ -55,7 +59,7 @@ class Progress(ABC):
     def __enter__(self):
         return self
 
-    def __exit__(self, *args):
+    def __exit__(self, exc_type: type, exc_val: Exception, exc_tb: Traceback):
         self.finish()
 
 

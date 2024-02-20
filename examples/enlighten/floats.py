@@ -15,11 +15,15 @@ import time
 from enlighten import get_manager
 
 # Use float formatting for count and total in bar_format
-BAR_FMT = u'{desc}{desc_pad}{percentage:3.0f}%|{bar}| {count:{len_total}.1f}/{total:.1f} ' + \
-          u'[{elapsed}<{eta}, {rate:.2f}{unit_pad}{unit}/s]'
+BAR_FMT = (
+    "{desc}{desc_pad}{percentage:3.0f}%|{bar}| {count:{len_total}.1f}/{total:.1f} "
+    + "[{elapsed}<{eta}, {rate:.2f}{unit_pad}{unit}/s]"
+)
 
-COUNTER_FMT = u'{desc}{desc_pad}{count:.1f} {unit}{unit_pad}' + \
-              u'[{elapsed}, {rate:.2f}{unit_pad}{unit}/s]{fill}'
+COUNTER_FMT = (
+    "{desc}{desc_pad}{count:.1f} {unit}{unit_pad}"
+    + "[{elapsed}, {rate:.2f}{unit_pad}{unit}/s]{fill}"
+)
 
 
 def process_files(count=None):
@@ -28,16 +32,16 @@ def process_files(count=None):
     """
 
     manager = get_manager()
-    pbar = manager.counter(total=count, desc='Floats', unit='ticks',
-                           bar_format=BAR_FMT, counter_format=COUNTER_FMT)
+    pbar = manager.counter(
+        total=count, desc="Floats", unit="ticks", bar_format=BAR_FMT, counter_format=COUNTER_FMT
+    )
 
     for _ in range(100):
         time.sleep(0.05)
         pbar.update(1.1)
 
 
-if __name__ == '__main__':
-
+if __name__ == "__main__":
     # Progress bar
     process_files(110.0)
 
