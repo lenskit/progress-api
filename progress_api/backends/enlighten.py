@@ -18,12 +18,29 @@ from enlighten import Counter, Manager
 from .. import api
 from . import ProgressBackend, ProgressBarSpec
 
-_dft_counter = (
-    "{desc}{desc_pad}{count:H} {unit}{unit_pad}[{elapsed}, {rate:.2f}{unit_pad}{unit}/s]{fill}"
+_lead = "{desc}{desc_pad}"
+_dft_meter = "[{elapsed}, {rate:.2f}{unit_pad}{unit}/s]"
+_byte_meter = "[{elapsed}, {rate:.2f}{unit_pad}{unit}/s]"
+_bar = "{percentage:3.0f}%|{bar}|"
+
+_dft_counter = "".join([_lead, "{count:H} {unit}{unit_pad}", _dft_meter, "{fill}"])
+_byte_counter = "".join([_lead, "{count:.2kB} {unit}{unit_pad}", _byte_meter, "{fill}"])
+_dft_bar = "".join(
+    [
+        _lead,
+        _bar,
+        " {count:H}/{total:H} ",
+        _dft_meter,
+    ]
 )
-_byte_counter = "{desc}{desc_pad}{count:.2kB} {unit}{unit_pad}[{elapsed}, {rate:.2k}B/s]{fill}"
-_dft_bar = "{desc}{desc_pad}{percentage:3.0f}%|{bar}| {count:H}/{total:H} [{elapsed}<{eta}, {rate:.2h}{unit_pad}{unit}/s]"  # noqa: E501
-_byte_bar = "{desc}{desc_pad}{percentage:3.0f}%|{bar}| {count:.2k}B/{total:.2k}B [{elapsed}<{eta}, {rate:.2k}B/s]"  # noqa: E501
+_byte_bar = "".join(
+    [
+        _lead,
+        _bar,
+        " {count:.2k}B/{total:.2k}B ",
+        _byte_meter,
+    ]
+)
 
 
 class EnlightenProgressBackend(ProgressBackend):
