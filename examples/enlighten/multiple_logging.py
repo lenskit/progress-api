@@ -8,14 +8,13 @@
 Multiple progress bars example
 """
 
-from contextlib import contextmanager
 import logging
 import platform
 import random
 import time
+from contextlib import contextmanager
 
 from progress_api.api import make_progress
-
 
 logging.basicConfig(level=logging.INFO)
 LOGGER = logging.getLogger("enlighten")

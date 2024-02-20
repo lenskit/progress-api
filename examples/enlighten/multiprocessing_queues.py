@@ -10,12 +10,11 @@ Example of using Enlighten with multiprocessing
 This example uses queues for inter-process communication (IPC)
 """
 
-from multiprocessing import Process, Queue
 import random
 import time
+from multiprocessing import Process, Queue
 
 import enlighten
-
 
 WORKERS = 4
 SYSTEMS = (10, 20)

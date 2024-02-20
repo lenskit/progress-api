@@ -11,8 +11,8 @@ Demo of Enlighten's features
 import os
 import platform
 import random
-import time
 import sys
+import time
 
 from progress_api import make_progress
 from progress_api.backends.enlighten import EnlightenProgressBackend
@@ -23,7 +23,7 @@ from progress_api.config import set_backend
 sys.path.insert(1, os.path.dirname(__file__))
 
 # pylint: disable=wrong-import-order,import-error,wrong-import-position
-from multicolored import run_tests, load  # noqa: E402
+from multicolored import load, run_tests  # noqa: E402
 from multiple_logging import process_files, win_time_granularity  # noqa: E402
 from prefixes import download  # noqa: E402
 

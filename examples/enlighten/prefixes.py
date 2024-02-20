@@ -8,8 +8,8 @@
 Progress bar using binary prefixes
 """
 
-import time
 import random
+import time
 
 from progress_api.api import make_progress
 

@@ -13,7 +13,6 @@ import os
 
 import enlighten
 
-
 SITE = "test.rebex.net"
 USER = "demo"
 PASSWD = "password"
