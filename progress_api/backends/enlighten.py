@@ -15,12 +15,14 @@ from typing import Optional
 
 from enlighten import Counter, Manager
 
+from progress_api.util import format_meter
+
 from .. import api
 from . import ProgressBackend, ProgressBarSpec
 
 _lead = "{desc}{desc_pad}"
-_dft_meter = "[{elapsed}, {rate:.2f}{unit_pad}{unit}/s]"
-_byte_meter = "[{elapsed}, {rate:.2f}{unit_pad}{unit}/s]"
+_dft_meter = "[{elapsed}, {rate:.2f}{unit_pad}{unit}/s{meter_pad}{meter}]"
+_byte_meter = "[{elapsed}, {rate:.2f}{unit_pad}{unit}/s{meter_pad}{meter}]"
 _bar = "{percentage:3.0f}%|{bar}|"
 
 _dft_counter = "".join([_lead, "{count:H} {unit}{unit_pad}", _dft_meter, "{fill}"])
@@ -70,6 +72,7 @@ class EnlightenProgressBackend(ProgressBackend):
             desc=spec.label,
             unit=spec.unit,
             leave=spec.leave,
+            fields={"meter_pad": "", "meter": ""},
             bar_format=_byte_bar if spec.unit == "bytes" else _dft_bar,
             counter_format=_byte_counter if spec.unit == "bytes" else _dft_counter,
             **options,
@@ -102,6 +105,14 @@ class EnlightenProgress(api.Progress):
 
     def set_total(self, total: int):
         self.bar.total = total
+
+    def set_meter(self, label: str, value: int | str | float | None, fmt: str | None = None):
+        if value:
+            self.bar.fields["meter_pad"] = ", "
+            self.bar.fields["meter"] = format_meter(label, value, fmt)
+        else:
+            self.bar.fields["meter_pad"] = ""
+            self.bar.fields["meter"] = ""
 
     def update(self, n: int = 1, state: Optional[str] = None, src_state: Optional[str] = None):
         if state is None:

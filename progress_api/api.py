@@ -40,6 +40,24 @@ class Progress(ABC):
         """
         raise NotImplementedError()
 
+    def set_meter(self, label: str, value: int | str | float | None, fmt: str | None = None):
+        """
+        Set a meter on the progress bar.
+
+        The format specifier is put into a format string that is passed to `str.format`, and must
+        include the braces.  For example, to format a percentage with 2 decimal points::
+
+            progress.set_meter('buffer', buf_fill_pct, '{:.2f}%')
+
+        Only one meter can be set at a time.  A new meter will replace any existing meter.
+
+        Args:
+            label: the meter label
+            value: the meter value
+            fmt: a format specifier (suitable for use in :meth:`str.format`)
+        """
+        pass
+
     @abstractmethod
     def update(
         self, n: int = 1, state: Optional[str] = None, src_state: Optional[str] = None

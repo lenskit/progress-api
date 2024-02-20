@@ -19,6 +19,8 @@ from typing import Optional
 from tqdm import tqdm
 from tqdm.auto import tqdm as auto_tqdm
 
+from progress_api.util import format_meter
+
 from .. import api
 from . import ProgressBackend, ProgressBarSpec
 
@@ -53,6 +55,12 @@ class TQDMProgress(api.Progress):
 
     def set_total(self, total: int):
         self.tqdm.total = total
+
+    def set_meter(self, label: str, value: int | str | float | None, fmt: str | None = None):
+        if value is not None:
+            self.tqdm.set_postfix_str(format_meter(label, value, fmt))
+        else:
+            self.tqdm.set_postfix_str("")
 
     def update(self, n: int = 1, state: Optional[str] = None, src_state: Optional[str] = None):
         if state is None or state in self.final_states and src_state not in self.final_states:
