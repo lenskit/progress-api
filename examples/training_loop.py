@@ -25,7 +25,7 @@ def main():
                 delay = time.samples(1)[0]
                 sleep(delay * delay / 1000)
                 loss += adjust.samples(1)[0]
-                batches.set_meter("loss", loss, "{:.3f}")
+                batches.set_metric("loss", loss, "{:.3f}")
                 batches.update(1)
             batches.finish()
             epochs.update(1)

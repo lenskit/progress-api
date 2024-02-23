@@ -106,7 +106,7 @@ class EnlightenProgress(api.Progress):
     def set_total(self, total: int):
         self.bar.total = total
 
-    def set_meter(self, label: str, value: int | str | float | None, fmt: str | None = None):
+    def set_metric(self, label: str, value: int | str | float | None, fmt: str | None = None):
         if value:
             self.bar.fields["meter_pad"] = ", "
             self.bar.fields["meter"] = format_meter(label, value, fmt)

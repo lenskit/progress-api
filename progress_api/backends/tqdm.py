@@ -56,7 +56,7 @@ class TQDMProgress(api.Progress):
     def set_total(self, total: int):
         self.tqdm.total = total
 
-    def set_meter(self, label: str, value: int | str | float | None, fmt: str | None = None):
+    def set_metric(self, label: str, value: int | str | float | None, fmt: str | None = None):
         if value is not None:
             self.tqdm.set_postfix_str(format_meter(label, value, fmt))
         else:
