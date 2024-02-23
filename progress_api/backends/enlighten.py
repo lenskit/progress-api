@@ -94,6 +94,7 @@ class EnlightenProgress(api.Progress):
     spec: ProgressBarSpec
     bar: Counter
     bars: dict[str, Counter]
+    _metric_display: Optional[tuple[str, Optional[str]]] = None
 
     def __init__(self, spec: ProgressBarSpec, bar: Counter, bars: dict[str, Counter]):
         self.spec = spec
@@ -107,17 +108,33 @@ class EnlightenProgress(api.Progress):
         self.bar.total = total
 
     def set_metric(self, label: str, value: int | str | float | None, fmt: str | None = None):
+        self._metric_display = (label, fmt)
+        self._update_metric(value)
+
+    def _update_metric(self, value: int | str | float | None):
+        if self._metric_display is None:
+            return
+
+        lbl, fmt = self._metric_display
         if value:
             self.bar.fields["meter_pad"] = ", "
-            self.bar.fields["meter"] = format_meter(label, value, fmt)
+            self.bar.fields["meter"] = format_meter(lbl, value, fmt)
         else:
             self.bar.fields["meter_pad"] = ""
             self.bar.fields["meter"] = ""
 
-    def update(self, n: int = 1, state: Optional[str] = None, src_state: Optional[str] = None):
+    def update(
+        self,
+        n: int = 1,
+        state: Optional[str] = None,
+        src_state: Optional[str] = None,
+        metric: int | str | float | None = None,
+    ):
         if state is None:
             state = self.spec.states[0].name
         bar = self.bars[state]
+        if metric is not None:
+            self._update_metric(metric)
         if src_state:
             src = self.bars[src_state]
             bar.update_from(src, float(n))  # type: ignore

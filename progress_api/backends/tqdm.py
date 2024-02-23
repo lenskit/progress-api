@@ -44,6 +44,7 @@ class TQDMProgress(api.Progress):
     spec: ProgressBarSpec
     tqdm: tqdm
     final_states: set[str]
+    _metric_display: Optional[tuple[str, Optional[str]]] = None
 
     def __init__(self, spec: ProgressBarSpec, tqdm: "tqdm"):
         self.spec = spec
@@ -57,12 +58,28 @@ class TQDMProgress(api.Progress):
         self.tqdm.total = total
 
     def set_metric(self, label: str, value: int | str | float | None, fmt: str | None = None):
+        self._metric_display = (label, fmt)
+        self._update_metric(value)
+
+    def _update_metric(self, value: int | str | float | None):
+        if self._metric_display is None:
+            return
+
+        lbl, fmt = self._metric_display
         if value is not None:
-            self.tqdm.set_postfix_str(format_meter(label, value, fmt))
+            self.tqdm.set_postfix_str(format_meter(lbl, value, fmt))
         else:
             self.tqdm.set_postfix_str("")
 
-    def update(self, n: int = 1, state: Optional[str] = None, src_state: Optional[str] = None):
+    def update(
+        self,
+        n: int = 1,
+        state: Optional[str] = None,
+        src_state: Optional[str] = None,
+        metric: int | str | float | None = None,
+    ):
+        if metric is not None:
+            self._update_metric(metric)
         if state is None or state in self.final_states and src_state not in self.final_states:
             self.tqdm.update(n)
 

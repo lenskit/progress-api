@@ -33,7 +33,13 @@ class NullProgress(api.Progress):
     def set_total(self, total: int):
         pass
 
-    def update(self, n: int = 1, state: Optional[str] = None, src_state: Optional[str] = None):
+    def update(
+        self,
+        n: int = 1,
+        state: Optional[str] = None,
+        src_state: Optional[str] = None,
+        metric: int | str | float | None = None,
+    ):
         pass
 
     def finish(self):

@@ -57,18 +57,24 @@ class Progress(ABC):
             progress.set_meter('buffer', buf_fill_pct, '{:.2f}%')
 
         Only one meter can be set at a time.  A new meter will replace any
-        existing meter.
+        existing meter.  This method remembers the label and format, even
+        if ``value`` is ``None``, so the metric value can be supplied in
+        ``update``.
 
         Args:
             label: the label for the metric
-            value: the metric value
+            value: the metric value, or ``None`` to hide the metric.
             fmt: a format specifier (suitable for use in :meth:`str.format`)
         """
         pass
 
     @abstractmethod
     def update(
-        self, n: int = 1, state: Optional[str] = None, src_state: Optional[str] = None
+        self,
+        n: int = 1,
+        state: Optional[str] = None,
+        src_state: Optional[str] = None,
+        metric: int | str | float | None = None,
     ) -> None:
         """
         Update the progress bar.
