@@ -15,7 +15,7 @@ from typing import Optional
 
 from enlighten import Counter, Manager
 
-from progress_api.util import format_meter
+from progress_api.util import format_metric
 
 from .. import api
 from . import ProgressBackend, ProgressBarSpec
@@ -118,7 +118,7 @@ class EnlightenProgress(api.Progress):
         lbl, fmt = self._metric_display
         if value:
             self.bar.fields["meter_pad"] = ", "
-            self.bar.fields["meter"] = format_meter(lbl, value, fmt)
+            self.bar.fields["meter"] = format_metric(lbl, value, fmt)
         else:
             self.bar.fields["meter_pad"] = ""
             self.bar.fields["meter"] = ""

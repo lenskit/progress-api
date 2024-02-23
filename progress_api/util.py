@@ -3,7 +3,7 @@ Utility functions for implementing progress backends.
 """
 
 
-def format_meter(label: str, value: int | str | float | None, fmt: str | None = None):
+def format_metric(label: str, value: int | str | float | None, fmt: str | None = None):
     """
     Helper method to format meters.
     """

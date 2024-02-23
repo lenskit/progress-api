@@ -19,7 +19,7 @@ from typing import Optional
 from tqdm import tqdm
 from tqdm.auto import tqdm as auto_tqdm
 
-from progress_api.util import format_meter
+from progress_api.util import format_metric
 
 from .. import api
 from . import ProgressBackend, ProgressBarSpec
@@ -67,7 +67,7 @@ class TQDMProgress(api.Progress):
 
         lbl, fmt = self._metric_display
         if value is not None:
-            self.tqdm.set_postfix_str(format_meter(lbl, value, fmt))
+            self.tqdm.set_postfix_str(format_metric(lbl, value, fmt))
         else:
             self.tqdm.set_postfix_str("")
 
