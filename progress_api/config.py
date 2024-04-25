@@ -8,12 +8,13 @@ from __future__ import annotations
 import os
 import threading
 from importlib.metadata import entry_points
-from typing import Any, cast
+from typing import Any, Callable, ParamSpec, cast, overload
 
 from . import backends
 
 _backend_lock = threading.Lock()
 _backend: backends.ProgressBackend | None = None
+BCP = ParamSpec("BCP")
 
 
 def _lazy_init():
@@ -42,9 +43,28 @@ def get_backend() -> backends.ProgressBackend:
     return _backend
 
 
+@overload
+def set_backend(impl: backends.ProgressBackend) -> None:
+    ...
+
+
+@overload
 def set_backend(
-    impl: str | backends.ProgressBackend | type[backends.ProgressBackend], *args: Any, **kwargs: Any
-):
+    impl: Callable[BCP, backends.ProgressBackend], *args: BCP.args, **kwargs: BCP.kwargs
+) -> None:
+    ...
+
+
+@overload
+def set_backend(impl: str, *args: tuple[Any], **kwargs: dict[str, Any]) -> None:
+    ...
+
+
+def set_backend(
+    impl: str | backends.ProgressBackend | Callable[BCP, backends.ProgressBackend],
+    *args: Any,
+    **kwargs: Any,
+) -> None:
     """
     Set the progress backend.  The backend can be specified in one of several ways:
 
