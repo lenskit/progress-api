@@ -56,7 +56,7 @@ def set_backend(
 
 
 @overload
-def set_backend(impl: str, *args: tuple[Any], **kwargs: dict[str, Any]) -> None:
+def set_backend(impl: str, *args: Any, **kwargs: Any) -> None:
     ...
 
 
