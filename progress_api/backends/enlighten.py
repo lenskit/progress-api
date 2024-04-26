@@ -66,7 +66,8 @@ class EnlightenProgressBackend(ProgressBackend):
         assert len(spec.states) >= 1
         options = {}
         if len(spec.states) == 1:
-            options["color"] = self.state_colors.get(spec.states[0], None)  # type: ignore
+            color, _f = spec.states[0]
+            options["color"] = self.state_colors.get(color, None)  # type: ignore
 
         bar = self.manager.counter(
             total=float(spec.total) if spec.total is not None else None,
