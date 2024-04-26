@@ -23,7 +23,7 @@ from . import ProgressBackend, ProgressBarSpec
 
 _lead = "{desc}{desc_pad}"
 _dft_meter = "[{elapsed}, {rate:.2f}{unit_pad}{unit}/s{meter_pad}{meter}]"
-_byte_meter = "[{elapsed}, {rate:.2f}{unit_pad}{unit}/s{meter_pad}{meter}]"
+_byte_meter = "[{elapsed}, {rate:.2j}B/s{meter_pad}{meter}]"
 _bar = "{percentage:3.0f}%|{bar}|"
 
 _dft_counter = "".join([_lead, "{count:H} {unit}{unit_pad}", _dft_meter, "{fill}"])
