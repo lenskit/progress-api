@@ -86,7 +86,7 @@ def set_backend(
     if isinstance(impl, str):
         eps = entry_points(name=impl, group="progress_api.backend")
         if eps:
-            impl = eps[0].load()
+            impl = eps[impl].load()
         else:
             raise ValueError(f"unknown progress backend {impl}")
 
