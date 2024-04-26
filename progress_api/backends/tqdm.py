@@ -11,6 +11,7 @@ unless used in a Jupyter notebook environment.
 
 .. _tqdm: https://tqdm.github.io/docs/tqdm/
 """
+
 # pyright: basic
 from __future__ import annotations
 

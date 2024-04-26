@@ -44,20 +44,17 @@ def get_backend() -> backends.ProgressBackend:
 
 
 @overload
-def set_backend(impl: backends.ProgressBackend) -> None:
-    ...
+def set_backend(impl: backends.ProgressBackend) -> None: ...
 
 
 @overload
 def set_backend(
     impl: Callable[BCP, backends.ProgressBackend], *args: BCP.args, **kwargs: BCP.kwargs
-) -> None:
-    ...
+) -> None: ...
 
 
 @overload
-def set_backend(impl: str, *args: Any, **kwargs: Any) -> None:
-    ...
+def set_backend(impl: str, *args: Any, **kwargs: Any) -> None: ...
 
 
 def set_backend(

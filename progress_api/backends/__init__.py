@@ -8,6 +8,7 @@ Package containing backends and the backend interface for the progress API. This
 package provides several backends, but the API is not limited to the supplied
 backends.
 """
+
 from __future__ import annotations
 
 from abc import ABC, abstractmethod

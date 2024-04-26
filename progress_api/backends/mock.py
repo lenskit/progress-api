@@ -6,6 +6,7 @@
 """
 Mock backend that records progress updates for testing.
 """
+
 from __future__ import annotations
 
 from typing import Optional

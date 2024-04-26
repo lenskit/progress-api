@@ -8,6 +8,7 @@ Progress backend using `Enlighten`_ to display progress bars.  It supports
 multiple bars (well) and multi-state bars, and interacts well with logging
 and other output to standard output and error streams.
 """
+
 # pyright: basic
 from __future__ import annotations
 
