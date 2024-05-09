@@ -144,4 +144,4 @@ class EnlightenProgress(api.Progress):
             bar.update(float(n))  # type: ignore
 
     def finish(self):
-        self.bar.close()
+        self.bar.close(True)
