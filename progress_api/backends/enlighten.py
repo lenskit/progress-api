@@ -98,6 +98,7 @@ class EnlightenProgress(api.Progress):
     bar: Counter
     bars: dict[str, Counter]
     _metric_display: Optional[tuple[str, Optional[str]]] = None
+    closed: bool = False
 
     def __init__(self, spec: ProgressBarSpec, bar: Counter, bars: dict[str, Counter]):
         self.spec = spec
@@ -115,6 +116,9 @@ class EnlightenProgress(api.Progress):
         self._update_metric(value)
 
     def _update_metric(self, value: int | str | float | None):
+        if self.closed:
+            return
+
         if self._metric_display is None:
             return
 
@@ -133,6 +137,9 @@ class EnlightenProgress(api.Progress):
         src_state: Optional[str] = None,
         metric: int | str | float | None = None,
     ):
+        if self.closed:
+            return
+
         if state is None:
             state = self.spec.states[0].name
         elif not self.spec.check_state(state, "warn"):
@@ -148,4 +155,8 @@ class EnlightenProgress(api.Progress):
             bar.update(float(n))  # type: ignore
 
     def finish(self):
+        if self.closed:
+            return
+
+        self.closed = True
         self.bar.close(True)
