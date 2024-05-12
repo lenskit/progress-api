@@ -11,6 +11,8 @@ Creating Progress Bars
 
 .. autofunction:: make_progress
 
+.. autofunction:: null_progress
+
 Progress Bar Interface
 ----------------------
 

@@ -51,6 +51,7 @@ class EnlightenProgressBackend(ProgressBackend):
     Progress bar backend that doesn't emit any progress.
     """
 
+    spec: ProgressBarSpec
     manager: Manager
     state_colors: dict[str, str]
 

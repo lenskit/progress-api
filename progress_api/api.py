@@ -25,7 +25,6 @@ class Progress(ABC):
     """
 
     name: str
-    spec: backends.ProgressBarSpec
 
     @abstractmethod
     def set_label(self, label: Optional[str]) -> None:
@@ -147,3 +146,14 @@ def make_progress(
 
     spec = backends.ProgressBarSpec(logger, label, total, unit, sl, leave)
     return config.get_backend().create_bar(spec)
+
+
+def null_progress() -> Progress:
+    """
+    Create a null progress bar, regardless of the configured backend. This is
+    useful to allow progress reporting to be optional without littering code
+    with conditionals.
+    """
+    from progress_api.backends.null import NullProgress
+
+    return NullProgress()

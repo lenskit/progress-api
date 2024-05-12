@@ -32,6 +32,7 @@ class MockProgressBackend(ProgressBackend):
 
 
 class MockProgress(api.Progress):
+    spec: ProgressBarSpec
     backend: MockProgressBackend
 
     def __init__(self, backend: MockProgressBackend, spec: ProgressBarSpec):
