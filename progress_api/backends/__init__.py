@@ -11,12 +11,15 @@ backends.
 
 from __future__ import annotations
 
+import warnings
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from logging import Logger
-from typing import NamedTuple, Optional
+from typing import Literal, NamedTuple, Optional, TypeAlias
 
 from .. import api
+
+ErrorAction: TypeAlias = Literal["ignore", "warn", "fail"]
 
 
 class ProgressState(NamedTuple):
@@ -69,6 +72,21 @@ class ProgressBarSpec:
     """
     Whether the progress bar should remain visible after completion.
     """
+
+    def check_state(self, state: str, action: ErrorAction = "warn") -> bool:
+        """
+        Check whether the specified state is valid.
+        """
+        for cs in self.states:
+            if cs.name == state:
+                return True
+
+        if action == "fail":
+            raise ValueError(f"undefined progress state {state}")
+        elif action == "warn":
+            warnings.warn(f"undefined progress state {state}")
+
+        return False
 
 
 class ProgressBackend(ABC):

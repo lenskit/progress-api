@@ -135,10 +135,13 @@ class EnlightenProgress(api.Progress):
     ):
         if state is None:
             state = self.spec.states[0].name
+        elif not self.spec.check_state(state, "warn"):
+            return
+
         bar = self.bars[state]
         if metric is not None:
             self._update_metric(metric)
-        if src_state:
+        if src_state and self.spec.check_state(state, "warn"):
             src = self.bars[src_state]
             bar.update_from(src, float(n))  # type: ignore
         else:
