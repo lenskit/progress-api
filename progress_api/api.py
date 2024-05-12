@@ -136,6 +136,8 @@ def make_progress(
         logger = getLogger(logger)
 
     if outcomes:
+        if isinstance(outcomes, str):
+            outcomes = [outcomes]
         sl = [backends.ProgressState(s, True) for s in outcomes]
         if states:
             sl += [backends.ProgressState(s, False) for s in states]
