@@ -22,18 +22,30 @@ from .. import api
 from . import ProgressBackend, ProgressBarSpec
 
 _lead = "{desc}{desc_pad}"
-_dft_meter = "[{elapsed}<{eta}, {rate:.2f}{unit_pad}{unit}/s{meter_pad}{meter}]"
-_byte_meter = "[{elapsed}<{eta}, {rate:.2j}B/s{meter_pad}{meter}]"
 _bar = "{percentage:3.0f}%|{bar}|"
 
-_dft_counter = "".join([_lead, "{count:H} {unit}{unit_pad}", _dft_meter, "{fill}"])
-_byte_counter = "".join([_lead, "{count:.2kB} {unit}{unit_pad}", _byte_meter, "{fill}"])
+_dft_counter = "".join(
+    [
+        _lead,
+        "{count:H} {unit}{unit_pad}",
+        "[{elapsed}, {rate:.2f}{unit_pad}{unit}/s{meter_pad}{meter}]",
+        "{fill}",
+    ]
+)
+_byte_counter = "".join(
+    [
+        _lead,
+        "{count:.2kB} {unit}{unit_pad}",
+        "[{elapsed}, {rate:.2j}B/s{meter_pad}{meter}]",
+        "{fill}",
+    ]
+)
 _dft_bar = "".join(
     [
         _lead,
         _bar,
         " {count:H}/{total:H} ",
-        _dft_meter,
+        "[{elapsed}<{eta}, {rate:.2f}{unit_pad}{unit}/s{meter_pad}{meter}]",
     ]
 )
 _byte_bar = "".join(
@@ -41,7 +53,7 @@ _byte_bar = "".join(
         _lead,
         _bar,
         " {count:.2k}B/{total:.2k}B ",
-        _byte_meter,
+        "[{elapsed}<{eta}, {rate:.2j}B/s{meter_pad}{meter}]",
     ]
 )
 
