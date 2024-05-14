@@ -102,6 +102,7 @@ class EnlightenProgressBackend(ProgressBackend):
         else:
             bars = {spec.states[0].name: bar}
 
+        bar.refresh()
         return EnlightenProgress(spec, bar, bars)
 
 
