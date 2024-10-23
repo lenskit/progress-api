@@ -163,7 +163,10 @@ class EnlightenProgress(api.Progress):
             self._update_metric(metric)
         if src_state and self.spec.check_state(state, "warn"):
             src = self.bars[src_state]
-            bar.update_from(src, float(n))  # type: ignore
+            try:
+                bar.update_from(src, float(n))  # type: ignore
+            except ValueError as e:
+                self.spec.logger.warning('invalid update: %s', e)
         else:
             bar.update(float(n))  # type: ignore
 
