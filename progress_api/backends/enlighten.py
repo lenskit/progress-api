@@ -166,7 +166,7 @@ class EnlightenProgress(api.Progress):
             try:
                 bar.update_from(src, float(n))  # type: ignore
             except ValueError as e:
-                self.spec.logger.warning('invalid update: %s', e)
+                self.spec.logger.warning("invalid update: %s", e)
         else:
             bar.update(float(n))  # type: ignore
 
