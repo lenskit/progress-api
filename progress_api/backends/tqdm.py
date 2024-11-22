@@ -6,7 +6,7 @@
 """
 Progress bar backend for `tqdm`_.  This backend is quite limited;
 it does not support multiple states, and it does not have good
-support for multiple progress bars or inteaction with logging,
+support for multiple progress bars or interaction with logging,
 unless used in a Jupyter notebook environment.
 
 .. _tqdm: https://tqdm.github.io/docs/tqdm/
@@ -37,7 +37,8 @@ class TQDMProgressBackend(ProgressBackend):
         self.tqdm = tqdm
 
     def create_bar(self, spec: ProgressBarSpec) -> api.Progress:
-        tqdm = self.tqdm(total=spec.total, desc=spec.label, unit=spec.unit or 'it', leave=spec.leave)  # type: ignore
+        unit = 'it' if spec.unit is None else spec.unit
+        tqdm = self.tqdm(total=spec.total, desc=spec.label, unit=unit, leave=spec.leave)  # type: ignore
         return TQDMProgress(spec, tqdm)
 
 

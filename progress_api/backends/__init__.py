@@ -60,7 +60,7 @@ class ProgressBarSpec:
     """
     unit: Optional[str] = None
     """
-    The progress bar's units.  Backens that support binary byte counts should
+    The progress bar's units.  Backends that support binary byte counts should
     recognize the ``bytes`` unit here.
     """
     states: list[ProgressState] = field(default_factory=lambda: [ProgressState("finished")])
