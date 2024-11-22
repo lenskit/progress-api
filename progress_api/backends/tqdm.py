@@ -37,7 +37,7 @@ class TQDMProgressBackend(ProgressBackend):
         self.tqdm = tqdm
 
     def create_bar(self, spec: ProgressBarSpec) -> api.Progress:
-        tqdm = self.tqdm(total=spec.total, desc=spec.label, unit=spec.unit, leave=spec.leave)  # type: ignore
+        tqdm = self.tqdm(total=spec.total, desc=spec.label, unit=spec.unit or 'it', leave=spec.leave)  # type: ignore
         return TQDMProgress(spec, tqdm)
 
 
